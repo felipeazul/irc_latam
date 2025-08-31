@@ -1,27 +1,48 @@
 ---
-title: "IRC Latam Client Numbers"
-author: "Philip Blue"
+title: "How many people did the IRC serve in Latin America in 2024?"
 format: html
-editor: visual
 ---
 
-## Quarto
+## How many people did the IRC serve in Latin America in 2024?
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+In **FY24**, the IRC reached an estimated **331,000 clients** across **Latin America**.
 
-## Running Code
+------------------------------------------------------------------------
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+### Why an estimate, and not a definite number?
+
+Because in humanitarian work, counting people is not as straightforward as it sounds.
+
+Our first priority is to provide services. If someone seeks help but does not wish to share their demographic details, we do not turn them away. In emergencies, collecting detailed personal data is often impossible. And many of our clients receive more than one type of service — health, protection, education, or livelihoods. If we simply added all service counts together, we would end up double-counting.
+
+These realities make precise counting difficult. But that does not mean we take measurement lightly. Instead, we use a **statistical model** based on the IRC’s Annual Statistics (which report IRC’s progress across individual services). This model combines Annual Statistics data with assumptions about uncertainty and overlap. This allows us to estimate how many unique people we reached, and to report how confident we are in those results.
+
+The model suggests that in FY24 the IRC served **around 331,000 people in Latin America**. We are **90% confident the true number lies between 310,000 and 352,000**.
+
+For now, we’ll stick with presenting the model’s central estimates, but shortly I’ll explain more about how the model works and how it gives a confidence interval.
+
+------------------------------------------------------------------------
+
+### Growth since FY19
+
+Since **FY19**, IRC’s presence in Latin America has increased more than seven-fold (from **44k to 331k**). The following charts show the central predictions of the model.
+
+**Figure 1. Clients reached by year across Latin America**
 
 ```{r}
-1 + 1
+# Placeholder: insert your R code for clients reached by year
+
 ```
 
-You can add options to executable code like this
+Much of this increase has come from the expansion of the IRC’s presence across different countries. In particular, IRC began working in Venezuela in FY20. IRC’s work in Ecuador, Peru and Mexico contributed significantly. At the same time, IRC’s work in Colombia and North Central America ramped up considerably during the period.
+
+**Figure 2. Clients reached by country across Latin America**
 
 ```{r}
 #| echo: false
 2 * 2
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+### Gender breakdown
+
+We can also break results out by gender. For Latin America, the results are as follows.
