@@ -1,19 +1,21 @@
 project:
   type: website
+  output-dir: _site
 
 website: 
-  title: "IRC Latin America Client Numbers"
+  title: "IRC Latam"
   navbar: 
     left: 
       - text: "Home"
         href: index.qmd
-  output-dir: _site
   
+execute:
+  freeze: auto   # optional: only re-render if source changes
+
 format:
   html: 
-    theme: null
     css: styles.css
     toc: true
-    toc-depth: 2
+    toc-depth: 3
     code-fold: false
     number-sections: false

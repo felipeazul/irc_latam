@@ -1,0 +1,159 @@
+/* ----- Fonts ----- */
+  
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1A1A1A;
+    background-color: #ffffff;
+    margin: 0;
+  padding: 0 2rem; /* horizontal padding for readability */
+}
+
+/* ----- Headings ----- */
+  h2, h3 {
+    font-family: 'Roboto Serif', italic;
+    font-weight: 500;
+    font-style: italic;
+    color: #111111;
+      line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  h1, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #111111;
+      line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+h1 { font-size: 2.0rem; margin-top: 3rem; margin-bottom: 1.5rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.1rem; }
+
+/* ----- Paragraphs ----- */
+  p { margin-bottom: 1.25rem; }
+  
+/* Set widths of container and figures */
+.quarto-container {
+  max-width: 1200px; /* or any value like 700px, 60em, etc. */
+  margin: 0 auto;   /* centers the content */
+}
+
+.quarto-figure {
+  max-width: 1200px;
+  margin-left: auto;
+}
+
+/* ----- Links ----- */
+  a {
+    color: #3B49DF;
+      text-decoration: none;
+  }
+a:hover { text-decoration: underline; }
+
+/* ----- Lists ----- */
+  ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+/* ----- Code blocks ----- */
+  pre, code {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #F6F6F6;
+      padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+
+/* ----- Figures / Plots ----- */
+  figure {
+    margin: 2rem 0;
+  }
+.plotly, img {
+  box-shadow: none;
+}
+
+figure .figure-caption {
+  font-size: 0.85rem; /* or try 13px */
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  color: #555555;     /* optional: softer color */
+  margin-top: 0.5rem;
+}
+
+
+/* ----- Horizontal rules ----- */
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #E0E0E0;
+      margin: 3rem 0;
+  }
+
+/* ----- Tables ----- */
+  table {
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+table th, table td {
+  border: 1px solid #E0E0E0;
+  padding: 0.5rem 0.75rem;
+}
+table th {
+  background-color: #F8F8F8;
+    font-weight: 600;
+}
+                
+/* Simplify callouts */
+.callout {
+  border-left: 4px solid #888; /* slim left bar */
+  background-color: #f9f9f9;   /* light background */
+  box-shadow: none;            /* remove shadow */
+  border-radius: 6px;          /* softer corners */
+  padding: 1em 1em;
+  margin: 1em 0;
+}
+
+/* Remove inner nested borders */
+.callout .callout {
+  border: none;
+  background: inherit;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+/* Custom IRC callout */
+.callout-irc {
+  border-left: 6px solid rgba(255, 86, 48, 0.7); /* your orange w/ 70% opacity */
+  background-color: rgba(255, 86, 48, 0.07);     /* faint background version */
+  border-radius: 8px;
+  padding: 1.0em 1.0em;
+  margin: 1.0em 0;
+  box-shadow: none;
+  font-family: "Inter", sans-serif;
+  font-size: 1.15em;
+  text-align: center;
+}
+
+/* Make the number larger + bold */
+.callout-irc .big-number {
+  font-weight: 700;
+  font-size: 1.3em; /* bump up size */
+}
+
+
+                    
