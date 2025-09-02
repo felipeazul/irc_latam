@@ -293,7 +293,7 @@ You might be thinking, why don’t the total numbers for each sector add up to t
 
 ### Can you tell me more about how the model works?
 
-Yes! The doesn’t directly count clients because this would mean collecting data about all people who receive services. We don’t want to create barriers to our services, and some people feel uncomfortable sharing their details. In acute emergencies, it can also be logistically challenging to collect this information. Instead, we count the services provided as part of the Annual Statistics process to estimate the number of clients we served.
+Yes! The model doesn’t directly count clients because this would mean collecting data about all people who receive services. We don’t want to create barriers to our services, and some people feel uncomfortable sharing their details. In acute emergencies, it can also be logistically challenging to collect this information. Instead, we count the services provided as part of the Annual Statistics process to estimate the number of clients we served.
 
 Using these data collected, we run statistical simulations to estimate the total number of clients: around 331 thousand in Latin. But we also give a range—our best guess is 331k and we’re 90% confident that the number lies between 319k and 345k.
 
@@ -378,8 +378,7 @@ chart_dotplot <- dotplot_data %>%
     middle = "#FFAB00",
     median = "#6554C0"
   )) +
-  labs(x = "Modeled number of clients") +
-  #  scale_fill_identity() +
+  labs(x = NULL) +
   scale_x_continuous(
     labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
     expand = expansion(mult = c(.01, .05))
@@ -394,7 +393,7 @@ chart_dotplot <- dotplot_data %>%
   ) +
   annotate(
     "curve", 
-    x = median_estimate, 
+    x = median_estimate + 400, 
     y = 0.04, 
     xend = ((median_estimate + max_value) / 2) - ((median_estimate + max_value) / 2) * .002,
     yend = 0.34, 
