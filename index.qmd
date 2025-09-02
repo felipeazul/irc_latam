@@ -112,7 +112,7 @@ chart_overview <- results_median %>%
   filter(sector == "clients", gender == "Total", country == "Latin America") %>%
   mutate(fill_col = factor(case_when(
     fy == "FY24" ~ "#0052CC",
-    TRUE ~ "#FFAB00")
+    TRUE ~ "#00B8D9")
   )) %>%
   ggplot(
     aes(x = factor(fy), y = clients, fill = fill_col,
@@ -266,8 +266,8 @@ chart_sector <- results_median %>%
   ) +
   scale_fill_manual(values = c(
     "Total" = "#0052CC",
-    "Female" = "#FF5630",
-    "Male" = "#FFAB00"
+    "Female" = "#00B8D9",
+    "Male" = "#6554C0"
   )) +
   labs(
     x = NULL,
@@ -299,7 +299,7 @@ Using these data collected, we run statistical simulations to estimate the total
 
 How does the statistical model work? We perform simulations to account for various uncertainties in the data, like errors in counting services or people receiving multiple services, or cases where we don't collect information on a person's gender. We run the simulation over and over to give us realistic scenarios of the total client count if there are small variations in the underlying data and assumptions. The results give us more confidence in the estimate while factoring in things like measurement error and overlaps between different services.
 
-Figure 4 shows the results of 151 simulations. Each dot represents a different simulation (count them just to be sure!). The  yellow  dot is the central estimate, and the  purple ones show a 90% confidence interval. The  grey  ones are outlier results of the simulations. In other words, they are less likely to be the true value.
+Figure 4 shows the results of 151 simulations. Each dot represents a different simulation (count them just to be sure!). The blue dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value.
 
 Since the simulations are run at a country level, we also have country-by-country estimates.
 
@@ -370,12 +370,12 @@ chart_dotplot <- dotplot_data %>%
   ) +
   scale_colour_manual(values = c(
     outlier = "grey70",
-    middle = "#FFAB00",
+    middle = "#00B8D9",
     median = "#6554C0"
   )) +
   scale_fill_manual(values = c(
     outlier = "grey70",
-    middle = "#FFAB00",
+    middle = "#00B8D9",
     median = "#6554C0"
   )) +
   labs(x = NULL) +
