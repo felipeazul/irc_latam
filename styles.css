@@ -99,22 +99,24 @@ a:hover { text-decoration: underline; }
     font-size: 0.95rem;
   }
 
-/* ----- Figures / Plots ----- */
-  figure {
-    margin: 2rem 0;
-  }
+/* Figures / Plots */
+figure {
+  margin: 2rem 0;
+}
+
 .plotly, img {
   box-shadow: none;
 }
 
-figure .figure-caption {
-  font-size: 0.85rem; /* or try 13px */
+figure .figure-caption,
+figcaption,
+.caption {
+  font-size: 0.85rem;
   font-family: 'Inter', sans-serif;
   font-style: italic;
-  color: #555555;     /* optional: softer color */
+  color: #555555;
   margin-top: 0.5rem;
 }
-
 
 /* ----- Horizontal rules ----- */
   hr {
