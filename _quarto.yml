@@ -19,3 +19,6 @@ format:
     toc-depth: 3
     code-fold: false
     number-sections: false
+    navbar:
+      background: white
+      foreground: black
