@@ -146,7 +146,8 @@ chart_overview_pp
 
 Much of this increase has come from the expansion of the IRC’s presence across different countries. In particular, IRC began working in Venezuela in FY20. IRC’s work in Ecuador, Peru and Mexico contributed significantly. At the same time, IRC’s work in Colombia and North Central America ramped up considerably during the period.
 
-#### Figure 2. IRC's client growth was driven by geographic expansion?
+::: panel-tabset
+#### **Figure 2a. IRC's geographic expansion**
 
 ```{r}
 #| echo: false
@@ -157,7 +158,7 @@ Much of this increase has come from the expansion of the IRC’s presence across
 #| fig-height: 5
 
 # Country totals line chart
-chart_lines <- results_median %>%
+chart_lines_countries <- results_median %>%
   filter(sector == "clients", gender == "Total", country != "Latin America") %>%
   mutate(
     Country = country,
@@ -214,10 +215,112 @@ chart_lines <- results_median %>%
     legend.text = element_text(family = "Inter", size = 9)
   )
 
-chart_lines_pp <- ggplotly(chart_lines, tooltip = "text")
-chart_lines_pp
+chart_lines_countries_pp <- ggplotly(chart_lines_countries, tooltip = "text")
+chart_lines_countries_pp
 
 ```
+
+#### **Figure 2b. Health programming drives client growth**
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Each line shows the estimated clients across all countries per sector. Click legend items to toggle sectors."
+#| fig-width: 7
+#| fig-height: 5
+
+results_mean <- results %>%
+  bind_rows(
+    results %>%
+      group_by(sim, fy, region, type) %>%
+      summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
+      mutate(country = "Latin America")  # new label to distinguish these rows
+  ) %>%
+  group_by(fy, region, country, type) %>%
+  summarise(clients = mean(clients)) %>%
+  separate(
+    type,
+    into = c("sector", "gender"),
+    sep = "_",
+    remove = FALSE
+  ) %>%
+  mutate(
+    gender = case_when(
+      gender == "f" ~ "Female",
+      gender == "m" ~ "Male",
+      gender == "total" ~ "Total",
+      TRUE ~ gender
+    ),
+    clients_round = round(clients, digits = 0),
+    label = sapply(clients_round, format_number),
+    label_num = str_remove(label, " clients")
+  ) %>%
+  dplyr::select(-type)
+
+# Country totals line chart
+chart_lines_sectors <- results_mean %>%
+  filter(sector != "clients", gender == "Total", country == "Latin America") %>%
+  mutate(
+    sector = case_when(
+      sector == "edu" ~ "Education",
+      sector == "health" ~ "Health",
+      sector == "power" ~ "Power",
+      sector == "safety" ~ "Safety",
+      sector == "wb" ~ "Econ wellbeing",
+      TRUE ~ sector
+    ),
+    Sector = sector,
+    fill_col = case_when(
+      sector == "edu" ~ "#FF5630",
+      sector == "health" ~ "#6554C0",
+      sector == "power" ~ "#FFAB00",
+      sector == "safety" ~ "#36B37E",
+      sector == "wb" ~ "#00B8D9",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  ggplot(
+    aes(x = fy, y = clients, colour = Sector, group = Sector,
+        text = paste0(fy, "<br>", label, "<br>", Sector)
+    )) +
+  geom_line(
+    linewidth = 1.2,
+    alpha = .7
+  ) +
+  guides(fill = "none") +
+  labs(
+    x = NULL,
+    y = NULL,
+    colour = "Sector"
+  ) +
+  scale_y_continuous(
+    labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
+    expand = expansion(mult = c(.01, .05))
+  ) +
+  scale_colour_manual(values = c(
+    "Education" = "#FF5630",
+    "Health" = "#6554C0",
+    "Power" = "#FFAB00",
+    "Safety" = "#36B37E",
+    "Econ wellbeing" = "#00B8D9"
+  )) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    axis.title.y = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    axis.title.x = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    legend.title = element_blank(),
+    axis.text.y = element_text(family = "Inter", size = 12),
+    axis.text.x = element_text(family = "Roboto Mono", size = 12),
+    legend.text = element_text(family = "Inter", size = 9)
+  )
+
+chart_lines_sectors_pp <- ggplotly(chart_lines_sectors, tooltip = "text")
+chart_lines_sectors_pp
+
+```
+:::
 
 ### Can I see more detail by sector and gender?
 
@@ -418,7 +521,7 @@ chart_dotplot
 
 ```
 
-So those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country. 
+So those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country.
 
 This chart shows the central estimate for each country (the dot) as well as the plausible range of values (the thin line is the 95% confidence interval and the thick line is the 66% confidence interval). The text shows the median, or central estimate (ie, the value shown by the dot).
 
@@ -520,19 +623,19 @@ chart_dist
 
 The IRC doesn't count each client individually. Instead, we track service deliveries, but we recognise that some clients receive multiple services, which could lead to an overcount. And that we maybe didn’t count everything correctly, which could lead to an undercount. To avoid this, we use a statistical model to simulate different scenarios that account for potential sources of uncertainty.
 
-1. **Uncertainty about the precision of service counts**. We assume there could be small errors in how services are counted. For example, sometimes data collection might be incomplete or inaccurate due to limitations in reporting systems or challenges in fieldwork. There might also be small inconsistencies in the way that data are collected from location to location.
-2. **Cases where gender of service recipients isn’t recorded**. In some cases we collect and record demographic data on gender from clients. In others we don’t. We therefore have to estimate this breakdown in that subset of cases.
-3. **Uncertainty about the reach of health programming**. This is where we face significant uncertainty. While we know the number of people potentially eligible for health services (the catchment area where we operate), it's difficult to know exactly how many people actually receive them. We also directly count some health services but not all. If someone drops-in for a reproductive health information session, we might not note that down. People might also drop out of programs, move, or not report their participation. To account for this uncertainty, we simulate different scenarios using a statistical approach that helps us estimate the range of potential values for the number of people who were truly reached.
-4. **Overlap between service areas**. Since many clients use multiple services (eg, a person might receive both education and health services), we need to account for this overlap. If we simply added up the people receiving each service, we'd risk double-counting the same individuals. Our models simulate how much overlap is likely and adjust for it. In this case, we estimate that around 51% of the total population (on average) may have received more than one type of service. We randomly vary this percentage to get a sense of potential sensitivity of our overall calculations to changes in this percentage.
+1.  **Uncertainty about the precision of service counts**. We assume there could be small errors in how services are counted. For example, sometimes data collection might be incomplete or inaccurate due to limitations in reporting systems or challenges in fieldwork. There might also be small inconsistencies in the way that data are collected from location to location.
+2.  **Cases where gender of service recipients isn’t recorded**. In some cases we collect and record demographic data on gender from clients. In others we don’t. We therefore have to estimate this breakdown in that subset of cases.
+3.  **Uncertainty about the reach of health programming**. This is where we face significant uncertainty. While we know the number of people potentially eligible for health services (the catchment area where we operate), it's difficult to know exactly how many people actually receive them. We also directly count some health services but not all. If someone drops-in for a reproductive health information session, we might not note that down. People might also drop out of programs, move, or not report their participation. To account for this uncertainty, we simulate different scenarios using a statistical approach that helps us estimate the range of potential values for the number of people who were truly reached.
+4.  **Overlap between service areas**. Since many clients use multiple services (eg, a person might receive both education and health services), we need to account for this overlap. If we simply added up the people receiving each service, we'd risk double-counting the same individuals. Our models simulate how much overlap is likely and adjust for it. In this case, we estimate that around 51% of the total population (on average) may have received more than one type of service. We randomly vary this percentage to get a sense of potential sensitivity of our overall calculations to changes in this percentage.
 
 **Step-by-step model explanation**
 
-- **Step 1. Adjusting service counts.** In Step 1, we adjust the indicator data by factoring in the regional averages for services, smoothing out any large discrepancies. This helps us reduce errors that could arise due to incomplete or inconsistent data across different countries or regions. For example, we use a blending weight to adjust the numbers closer to regional norms, which helps us account for country-specific biases or gaps.
-- **Step 2. Estimate gender breakdown where gender was not recorded.** For some indicators we know the male / female breakdown, for others we don't. For each indicator where it's not known we estimate it. This is done by creating a weighted average of three gender ratios: the country gender ratio, the regional ratio and the sector ratio. In each simulation, a random weight is applied to each of these ratios, and the average of those ratios is then used to estimate male and femal clients, per indicator. This means that in each simualtion the gender numbers are diffierent.
-- **Step 3. Estimate plausible values for health reach.** In Step 3, we use a logarithmic weighting function to adjust health service reach estimates based on the ratio of directly measured health services to the catchment area. For each simulation, this function compares the health catchment number with the total number of services, and asks the question, are these numbers consistent? The function assigns a weight that determines how much we should rely on observed service counts versus the total population in the catchment area.
-    - ⁠Low health presence → The model relies more on observed service counts.
-    - High health presence → The model shifts the estimate toward the total population.
-- This transformation ensures that service reach estimates don’t unrealistically overshoot when observed counts are high, while still adjusting upward when observed counts are low relative to population size. The use of a logarithmic function is key here because it smoothly scales the weight rather than applying a hard cutoff, ensuring a more gradual transition between low and high service presence scenarios.
-- **Step 4.** **Monte Carlo simulations.** Monte Carlo simulations are a technique used to model uncertainty and explore different possible outcomes when there are many uncertain variables. In the context of our model, in Step 4 we use Monte Carlo simulations to generate a wide range of plausible values for our final estimates. Monte Carlo simulations let us explore many different possible scenarios, based on real-world uncertainty, and generate a more accurate and reliable range for the number of clients served.
+-   **Step 1. Adjusting service counts.** In Step 1, we adjust the indicator data by factoring in the regional averages for services, smoothing out any large discrepancies. This helps us reduce errors that could arise due to incomplete or inconsistent data across different countries or regions. For example, we use a blending weight to adjust the numbers closer to regional norms, which helps us account for country-specific biases or gaps.
+-   **Step 2. Estimate gender breakdown where gender was not recorded.** For some indicators we know the male / female breakdown, for others we don't. For each indicator where it's not known we estimate it. This is done by creating a weighted average of three gender ratios: the country gender ratio, the regional ratio and the sector ratio. In each simulation, a random weight is applied to each of these ratios, and the average of those ratios is then used to estimate male and femal clients, per indicator. This means that in each simualtion the gender numbers are diffierent.
+-   **Step 3. Estimate plausible values for health reach.** In Step 3, we use a logarithmic weighting function to adjust health service reach estimates based on the ratio of directly measured health services to the catchment area. For each simulation, this function compares the health catchment number with the total number of services, and asks the question, are these numbers consistent? The function assigns a weight that determines how much we should rely on observed service counts versus the total population in the catchment area.
+    -   ⁠Low health presence → The model relies more on observed service counts.
+    -   High health presence → The model shifts the estimate toward the total population.
+-   This transformation ensures that service reach estimates don’t unrealistically overshoot when observed counts are high, while still adjusting upward when observed counts are low relative to population size. The use of a logarithmic function is key here because it smoothly scales the weight rather than applying a hard cutoff, ensuring a more gradual transition between low and high service presence scenarios.
+-   **Step 4.** **Monte Carlo simulations.** Monte Carlo simulations are a technique used to model uncertainty and explore different possible outcomes when there are many uncertain variables. In the context of our model, in Step 4 we use Monte Carlo simulations to generate a wide range of plausible values for our final estimates. Monte Carlo simulations let us explore many different possible scenarios, based on real-world uncertainty, and generate a more accurate and reliable range for the number of clients served.
 
 By combining these methods—adjusting for service count uncertainties, using logarithmic functions to better handle skewed data, and running Monte Carlo simulations to account for uncertainty—we can make more informed estimates and better understand the reach and impact of our services. The simulations give us confidence that the range we report (eg, 319 thousand to 345 thousand) reflects a wide range of possible real-world outcomes, and not just a single estimate.
