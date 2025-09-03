@@ -1,5 +1,7 @@
 ---
-title: "The IRC in Latin America"
+title: "The IRC is rapidly expanding its client reach in Latin America"
+subtitle: "Our model indicates that client reach peaked in FY22. Colombia and Venezuela account for the largest numbers, while Ecuador, Peru, and El Salvador are notable fast risers. Health services dominate overall support."
+# subtitle: "Client reach peaked in FY22. Colombia and Venezuela lead in absolute numbers, but Ecuador, Peru, and El Salvador are fast risers. Health services dominate overall support."
 format: html
 ---
 
@@ -35,7 +37,7 @@ The number is an estimate, but not a guess. It reflects hundreds of thousands of
 
 Since **FY19**, IRC’s presence in Latin America has increased more than **seven-fold**, from **44,000 people** to **331,000**. Starting in 2019, the IRC's footprint was modest, rising to 452,000 in 2022, before tailing off. Today's reach, 331k per year, represents around **900 people receiving a service per day**. Figure 1 shows the sharp rise in client numbers.
 
-#### Figure 1. The IRC's reach in Latin America has grown sevenfold since 2019
+#### Figure 1. The IRC's reach in Latin America has grown seven-fold since 2019
 
 ```{r}
 #| echo: false
@@ -103,6 +105,32 @@ results_median <- results %>%
     clients_round = round(clients, digits = 0),
     label = sapply(clients_round, format_number),
     label_num = str_remove(label, " clients")
+  ) %>%
+  dplyr::select(-type)
+
+latam_client_simulations <- results %>%
+  bind_rows(
+    results %>%
+      group_by(sim, fy, region, type) %>%
+      summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
+      mutate(country = "Latin America")  # new label to distinguish these rows
+  ) %>%
+  group_by(sim, fy, region, country, type) %>%
+  summarise(clients = median(clients)) %>%
+  separate(
+    type,
+    into = c("sector", "gender"),
+    sep = "_",
+    remove = FALSE
+  ) %>%
+  mutate(
+    gender = case_when(
+      gender == "f" ~ "Female",
+      gender == "m" ~ "Male",
+      gender == "total" ~ "Total",
+      TRUE ~ gender
+    ),
+    clients = round(clients, digits = 0)
   ) %>%
   dplyr::select(-type)
 
@@ -223,7 +251,16 @@ chart_lines_countries <- results_median %>%
     legend.text = element_text(family = "Inter", size = 9)
   )
 
-chart_lines_countries_pp <- ggplotly(chart_lines_countries, tooltip = "text")
+chart_lines_countries_pp <- ggplotly(chart_lines_countries, tooltip = "text") %>%
+  layout(
+    legend = list(
+      orientation = "h",
+      x = .5,
+      y = 1.1,
+      xanchor = "center",
+      yanchor = "bottom"
+    )
+  )
 
 # Wrap in <figure> with caption
 fig <- tags$figure(
@@ -333,7 +370,16 @@ chart_lines_sectors <- results_mean %>%
     legend.text = element_text(family = "Inter", size = 9)
   )
 
-chart_lines_sectors_pp <- ggplotly(chart_lines_sectors, tooltip = "text")
+chart_lines_sectors_pp <- ggplotly(chart_lines_sectors, tooltip = "text") %>%
+  layout(
+    legend = list(
+      orientation = "h",
+      x = .5,
+      y = 1.1,
+      xanchor = "center",
+      yanchor = "bottom"
+    )
+  )
 
 # Wrap in <figure> with caption
 fig <- tags$figure(
@@ -439,9 +485,7 @@ Using these data collected, we run statistical simulations to estimate the total
 
 How does the statistical model work? We perform simulations to account for various uncertainties in the data, like errors in counting services or people receiving multiple services, or cases where we don't collect information on a person's gender. We run the simulation over and over to give us realistic scenarios of the total client count if there are small variations in the underlying data and assumptions. The results give us more confidence in the estimate while factoring in things like measurement error and overlaps between different services.
 
-Figure 4 shows the results of 151 simulations. Each dot represents a different simulation (count them just to be sure!). The blue dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value.
-
-Since the simulations are run at a country level, we also have country-by-country estimates.
+Figure 4 shows the results of 151 simulations.
 
 #### Figure 4. The 151 simulation results of the statistical model
 
@@ -449,7 +493,7 @@ Since the simulations are run at a country level, we also have country-by-countr
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Each dot is a simulation result of the total clients reached."
+#| fig-cap: "Each dot is a simulation result of the total clients reached. Each dot represents a different simulation (count them just to be sure!). The blue dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value."
 # #| fig-cap-location: margin
 #| fig-width: 7
 #| fig-height: 4
@@ -560,9 +604,7 @@ chart_dotplot
 
 ```
 
-So those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country.
-
-This chart shows the central estimate for each country (the dot) as well as the plausible range of values (the thin line is the 95% confidence interval and the thick line is the 66% confidence interval). The text shows the median, or central estimate (ie, the value shown by the dot).
+Those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country.
 
 #### Figure 5. Client reach in FY24 varies by country, with uncertainty ranges shown
 
@@ -572,6 +614,7 @@ This chart shows the central estimate for each country (the dot) as well as the 
 #| warning: false
 #| fig-width: 7
 #| fig-height: 4
+#| fig-cap: "Note: In FY24, more clients were reached in El Salvador and Venezuela. This chart shows the central estimate for each country (the dot) as well as the plausible range of values (the thin line is the 95% confidence interval and the thick line is the 66% confidence interval). The text shows the median, or central estimate (ie, the value shown by the dot). "
 #| fig-align: "center"
 
 model_summary <- results %>%
@@ -608,10 +651,11 @@ model_summary <- results %>%
 chart_dist <- results %>%
   filter(type == "clients_total", fy == "FY24") %>%
   ggplot(aes(x = clients, y = country, fill = country, colour = country)) +
+#  geom_col(data = results_median %>% filter(sector == "clients", gender == "Total", fy == "FY24", country != "Latin America"), aes(x = clients), alpha = .8) +
   stat_gradientinterval(
     .width = c(0.66, 0.95),  # Displaying 66% and 95% intervals
-    point_interval = median_qi  # Median as the point
-    #    colour = "black"
+    point_interval = median_qi,  # Median as the point
+    colour = "black"
   ) + 
   geom_text(
     data = model_summary,
@@ -678,3 +722,24 @@ The IRC doesn't count each client individually. Instead, we track service delive
 -   **Step 4.** **Monte Carlo simulations.** Monte Carlo simulations are a technique used to model uncertainty and explore different possible outcomes when there are many uncertain variables. In the context of our model, in Step 4 we use Monte Carlo simulations to generate a wide range of plausible values for our final estimates. Monte Carlo simulations let us explore many different possible scenarios, based on real-world uncertainty, and generate a more accurate and reliable range for the number of clients served.
 
 By combining these methods—adjusting for service count uncertainties, using logarithmic functions to better handle skewed data, and running Monte Carlo simulations to account for uncertainty—we can make more informed estimates and better understand the reach and impact of our services. The simulations give us confidence that the range we report (eg, 319 thousand to 345 thousand) reflects a wide range of possible real-world outcomes, and not just a single estimate.
+
+### Further information and resources
+
+If you have questions about the data, the methodology, or client reach more generally within Latin America, please email:
+
+-   [Philip Blue](mailto:philip.blue@rescue.org), Regional Measurement Adviser, Latam
+-   [Katie Susman](mailto:katharine.susman@rescue.org), Deputy Regional Director, Latam
+-   [Mark Montague](mailto:mark.montague@rescue.org), Deputy Director, MEAL
+
+For more about the Annual Statistics, see the [Rescuenet page](https://rescuenet.rescue.org/page/13048) or [dashboard](https://app.powerbi.com/groups/me/apps/ba0d2984-af1f-4a07-8d76-d32014f53834).
+
+```{r}
+#| label: save-results
+#| echo: false
+#| message: false
+# Save results dataset for download
+write_csv(results, "data/latam_client_simulations.csv")
+```
+
+Data for all 151 simulations can be downloaded [here](data/latam_client.simulations.csv).
+
