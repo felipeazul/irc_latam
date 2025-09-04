@@ -137,10 +137,12 @@ latam_client_simulations <- results %>%
 # Chart showing a regional time series of client reach
 chart_overview <- results_median %>%
   filter(sector == "clients", gender == "Total", country == "Latin America") %>%
-  mutate(fill_col = factor(case_when(
-    fy == "FY24" ~ "#0052CC",
-    TRUE ~ "#00B8D9")
-  )) %>%
+  mutate(
+    fill_col = factor(case_when(
+      fy == "FY24" ~ "#0052CC",
+      TRUE ~ "#00B8D9")
+    )
+  ) %>%
   ggplot(
     aes(x = factor(fy), y = clients, fill = fill_col,
         text = paste0(fy, "<br>", label)
