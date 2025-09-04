@@ -1,7 +1,12 @@
+# RStudio files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 
-/.quarto/
+# macOS system files
 .DS_Store
+
+# Quarto build artifacts
+/.quarto/
+_site/
