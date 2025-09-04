@@ -1,6 +1,6 @@
 ---
-title: "The IRC is rapidly expanding its client reach in Latin America"
-subtitle: "Our model indicates that client reach peaked in FY22. Colombia and Venezuela account for the largest numbers, while Ecuador, Peru, and El Salvador are notable fast risers. Health services dominate overall support."
+title: "The IRC is rapidly expanding its client reach in Latin America [DRAFT]"
+subtitle: "Our model indicates that client reach peaked in FY22. Colombia and Venezuela account for the largest numbers, while Ecuador, Peru and El Salvador are notable fast risers. Health services dominate overall support."
 # subtitle: "Client reach peaked in FY22. Colombia and Venezuela lead in absolute numbers, but Ecuador, Peru, and El Salvador are fast risers. Health services dominate overall support."
 format: html
 ---
@@ -266,7 +266,7 @@ chart_lines_countries_pp <- ggplotly(chart_lines_countries, tooltip = "text") %>
 fig <- tags$figure(
   chart_lines_countries_pp,
   tags$figcaption(
-    "Each line shows the estimated clients per country. From FY19 to FY21, North Central America (NCA) was counted as a single country. From FY22 the numbers were separated out. Click legend items toggle countries.",
+    "Each line shows the estimated clients per country. From FY19 to FY21, North Central America (NCA) was counted as a single country. From FY22 the numbers were separated out. Click legend items to toggle countries.",
     class = "figure-caption"
   )
 )
