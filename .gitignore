@@ -1,0 +1,41 @@
+# RStudio files
+.Rproj.user/
+*.Rproj
+*.Rhistory
+*.RData
+*.Rapp.history
+# Quarto build artifacts
+_quarto/
+docs/*.html
+docs/*.pdf
+docs/*.docx
+
+# macOS system files
+.DS_Store
+.Trash/
+.config/
+.cups/
+.dropbox/
+.zprofile
+.zsh_history
+.zsh_sessions/
+.bash_history
+.bash_sessions/
+.local/
+.r/
+.ssh/
+
+# Other system folders (if accidentally added)
+Applications/
+Desktop/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+Sites/
+
+# Temporary or backup files
+*~ 
+*.bak
+*.tmp
