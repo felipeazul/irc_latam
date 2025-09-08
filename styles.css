@@ -1,63 +1,78 @@
 /* ----- Fonts ----- */
-  
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
+/* ----- Layout: Text and Figures ----- */
 
-/* styles.css */
+/* Main content area: narrower for readability */
+.quarto-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Figures: allow wider than text */
+.quarto-figure img {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 2rem auto;
+}
+
+/* Ensure images and plots scale properly */
+img, .plotly, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----- Navbar ----- */
 .navbar {
   background-color: white !important;
   color: black !important;
 }
-
 .navbar a {
   color: black !important;
 }
 
+/* ----- Typography ----- */
 body {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 15px;
   line-height: 1.6;
   color: #1A1A1A;
-    background-color: #ffffff;
-    margin: 0;
-  padding: 0 2rem; /* horizontal padding for readability */
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0 2rem;
 }
 
 /* ----- Headings ----- */
-  h1 {
-    font-family: 'Roboto Serif', serif;
-    font-weight: 600;
-    color: #111111;
-      line-height: 1.3;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  h2, h3 {
-    font-family: 'Roboto Serif', italic;
-    font-weight: 500;
-    font-style: italic;
-    color: #111111;
-      line-height: 1.3;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    color: #111111;
-      line-height: 1.3;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-h1 { font-size: 2.2rem; margin-top: 3rem; margin-bottom: 1.5rem; }
+h1 {
+  font-family: 'Roboto Serif', serif;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.6;
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+h2, h3 {
+  font-family: 'Roboto Serif', serif;
+  font-weight: 500;
+  font-style: italic;
+  color: #111111;
+  line-height: 1.3;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.3;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 h2 { font-size: 1.6rem; }
 h3 { font-size: 1.3rem; }
 h4 { font-size: 1.1rem; }
@@ -86,51 +101,40 @@ h4 { font-size: 1.1rem; }
 }
 
 /* ----- Paragraphs ----- */
-  p { margin-bottom: 1.25rem; }
-  
-/* Set widths of container and figures */
-.quarto-container {
-  max-width: 1200px; /* or any value like 700px, 60em, etc. */
-  margin: 0 auto;   /* centers the content */
-}
-
-.quarto-figure {
-  max-width: 1200px;
-  margin-left: auto;
+p {
+  margin-bottom: 1.25rem;
 }
 
 /* ----- Links ----- */
-  a {
-    color: #3B49DF;
-      text-decoration: none;
-  }
-a:hover { text-decoration: underline; }
+a {
+  color: #3B49DF;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 
 /* ----- Lists ----- */
-  ul, ol {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-  }
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
 
 /* ----- Code blocks ----- */
-  pre, code {
-    font-family: 'Roboto Mono', monospace;
-    background-color: #F6F6F6;
-      padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.95rem;
-  }
+pre, code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #F6F6F6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
 
-/* Figures / Plots */
+/* ----- Figures / Plots ----- */
 figure {
   margin: 2rem 0;
+  text-align: center;
 }
-
-.plotly, img {
-  box-shadow: none;
-}
-
 figure .figure-caption,
 figcaption,
 .caption {
@@ -139,30 +143,9 @@ figcaption,
   font-style: italic;
   color: #555555;
   margin-top: 0.5rem;
+  text-align: center;
 }
 
-/* ----- Horizontal rules ----- */
-  hr {
-    border: none;
-    height: 1px;
-    background-color: #E0E0E0;
-      margin: 3rem 0;
-  }
-
-/* ----- Tables ----- */
-  table {
-    border-collapse: collapse;
-    margin-bottom: 2rem;
-  }
-table th, table td {
-  border: 1px solid #E0E0E0;
-  padding: 0.5rem 0.75rem;
-}
-table th {
-  background-color: #F8F8F8;
-    font-weight: 600;
-}
-                
 /* Simplify callouts */
 .callout {
   border-left: 4px solid #888; /* slim left bar */
@@ -204,5 +187,3 @@ table th {
   font-size: 1.3em; /* bump up size */
 }
 
-
-                    
