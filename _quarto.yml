@@ -11,6 +11,7 @@ website:
   
 execute:
   freeze: auto   # optional: only re-render if source changes
+  echo: false
 
 format:
   html: 

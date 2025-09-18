@@ -6,50 +6,20 @@ format: html
 ---
 
 ```{r}
+#| label: Data, package & font loading and preparation
 #| echo: false
 #| message: false
 #| warning: false
+
 library(tidyverse)
 library(plotly)
 library(viridis)
 library(showtext)
 library(ggdist)
 library(htmltools)
-```
 
-::: callout-irc
-[📢]{.big-number} In **FY24**, the IRC reached an estimated [331,000]{.big-number} clients across **Latin America**.
-:::
+model_data_06_overlap <- read_csv("data/modeled_data_latam.csv")
 
-### Why an estimate, not a count?
-
-Counting people reached by humanitarian services sounds straightforward. In reality, it rarely is.
-
-The IRC’s first priority is to deliver help, not to collect data or complete paperwork. If someone comes for support but doesn’t wish to share personal details, we don’t turn them away. In emergencies, collecting demographic information can be impractical, even unsafe. We don't insist on it. This means we can't necessarily track whether a given individual who used one service later used another. And because many clients receive more than one type of service—health care, protection, education, or livelihoods—we can't simply add up service counts. That would inflate the total through double-counting.
-
-That does not mean measurement is taken lightly. Instead, the IRC in Latam uses a statistical model built on our Annual Statistics, which track progress across individual services. The model blends these service counts with assumptions about overlap and uncertainty, giving us an estimate of unique clients—and a way to report how confident we are in that number.
-
-The result: **in FY24 the IRC reached around 331,000 people in Latin America**. Statistically, we are 90% confident the true figure lies between 322,000 and 340,000. (This does not yet include people reached through online or mass-media campaigns such as the Signpost project.)
-
-The number is an estimate, but not a guess. It reflects hundreds of thousands of real encounters with people seeking help.
-
-### How has the IRC's reach changed over time?
-
-Since **FY19**, IRC’s presence in Latin America has increased more than **seven-fold**, from **44,000 people** to **331,000**. Starting in 2019, the IRC's footprint was modest, rising to 452,000 in 2022, before tailing off. Today's reach, 331k per year, represents around **900 people receiving a service per day**. Figure 1 shows the sharp rise in client numbers.
-
-#### Figure 1. The IRC's reach in Latin America has grown seven-fold since 2019
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 7
-#| fig-height: 5
-#| fig-align: "center"
-
-model_data_05_overlap <- read_csv("data/modeled_data_latam.csv")
-
-#### Load fonts ####
 font_add_google(name = "Roboto Mono", family = "Roboto Mono")
 font_add_google(name = "Inter", family = "Inter")
 showtext_auto()
@@ -66,7 +36,7 @@ format_number <- function(x) {
 }
 
 #### Prepare data ####
-results <- model_data_05_overlap %>%
+results <- model_data_06_overlap %>%
   dplyr::select(
     sim, fy, region, country, edu_f, edu_m, edu_total, health_f = adjusted_health_f,
     health_m = adjusted_health_m, health_total = adjusted_health_total, power_f, power_m, power_total,
@@ -88,7 +58,7 @@ results_median <- results %>%
       mutate(country = "Latin America")  # new label to distinguish these rows
   ) %>%
   group_by(fy, region, country, type) %>%
-  summarise(clients = median(clients)) %>%
+  summarise(clients = median(clients), .groups = "drop") %>%
   separate(
     type,
     into = c("sector", "gender"),
@@ -116,7 +86,7 @@ latam_client_simulations <- results %>%
       mutate(country = "Latin America")  # new label to distinguish these rows
   ) %>%
   group_by(sim, fy, region, country, type) %>%
-  summarise(clients = median(clients)) %>%
+  summarise(clients = median(clients), .groups = "drop") %>%
   separate(
     type,
     into = c("sector", "gender"),
@@ -133,6 +103,85 @@ latam_client_simulations <- results %>%
     clients = round(clients, digits = 0)
   ) %>%
   dplyr::select(-type)
+
+results_mean <- results %>%
+  bind_rows(
+    results %>%
+      group_by(sim, fy, region, type) %>%
+      summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
+      mutate(country = "Latin America")  # new label to distinguish these rows
+  ) %>%
+  group_by(fy, region, country, type) %>%
+  summarise(clients = mean(clients), .groups = "drop") %>%
+  separate(
+    type,
+    into = c("sector", "gender"),
+    sep = "_",
+    remove = FALSE
+  ) %>%
+  mutate(
+    gender = case_when(
+      gender == "f" ~ "Female",
+      gender == "m" ~ "Male",
+      gender == "total" ~ "Total",
+      TRUE ~ gender
+    ),
+    clients_round = round(clients, digits = 0),
+    label = sapply(clients_round, format_number),
+    label_num = str_remove(label, " clients")
+  ) %>%
+  dplyr::select(-type)
+
+results_labelled <- results %>%
+  group_by(sim, fy, region, type) %>%
+  summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
+  separate(
+    type,
+    into = c("sector", "gender"),
+    sep = "_",
+    remove = FALSE
+  ) %>%
+  mutate(
+    gender = case_when(
+      gender == "f" ~ "Female",
+      gender == "m" ~ "Male",
+      gender == "total" ~ "Total",
+      TRUE ~ gender
+    ),
+    clients_round = round(clients, digits = 0),
+    label = sapply(clients_round, format_number),
+    label_num = str_remove(label, " clients")
+  ) %>%
+  dplyr::select(-type) %>%
+  filter(sector == "clients", gender == "Total")
+
+dotplot_data <- results_labelled %>%
+  filter(fy == "FY24", region == "Latin America", sector == "clients", gender == "Total")
+
+median_estimate <- median(dotplot_data$clients)
+max_value <- max(dotplot_data$clients)
+binwidth_val <- (max(dotplot_data$clients) - min(dotplot_data$clients)) / 30
+
+dotplot_data <- dotplot_data %>%
+  mutate(
+    q05 = quantile(clients, 0.05),
+    q95 = quantile(clients, 0.95),
+    median = median(clients),
+    colour_cat = case_when(
+      clients == median ~ "median",
+      clients < q05 | clients > q95 ~ "outlier",
+      TRUE ~ "middle"
+    ),
+    colour_cat = factor(colour_cat, levels = c("outlier", "middle", "median"))
+  )
+
+```
+
+```{r}
+#| label: Chart creation
+#| echo: false
+#| message: false
+#| warning: false
 
 # Chart showing a regional time series of client reach
 chart_overview <- results_median %>%
@@ -167,33 +216,6 @@ chart_overview <- results_median %>%
   )
 
 chart_overview_pp <- ggplotly(chart_overview, tooltip = "text")
-
-# Wrap in <figure> with caption
-fig <- tags$figure(
-  chart_overview_pp,
-  tags$figcaption(
-    "Estimate of the number of clients reach across all countries and service types / sectors, based on IRC Latam's model.The sharp rise reflects expansion across countries and sectors. Figures are the median values generated by the model. Hover over the bars to see the numbers.",
-    class = "figure-caption"
-  )
-)
-
-fig
-
-```
-
-### Where did this happen?
-
-Much of this increase has come from the expansion of the IRC’s presence across different countries. In particular, IRC began working in Venezuela in FY20. IRC’s work in Ecuador, Peru and Mexico contributed significantly. At the same time, IRC’s work in Colombia and North Central America ramped up considerably during the period.
-
-::: panel-tabset
-#### **Figure 2a. IRC's geographic expansion**
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 7
-#| fig-height: 5
 
 # Country totals line chart
 chart_lines_countries <- results_median %>%
@@ -263,57 +285,7 @@ chart_lines_countries_pp <- ggplotly(chart_lines_countries, tooltip = "text") %>
       yanchor = "bottom"
     )
   )
-
-# Wrap in <figure> with caption
-fig <- tags$figure(
-  chart_lines_countries_pp,
-  tags$figcaption(
-    "Each line shows the estimated clients per country. From FY19 to FY21, North Central America (NCA) was counted as a single country. From FY22 the numbers were separated out. Click legend items to toggle countries.",
-    class = "figure-caption"
-  )
-)
-
-fig
-
-```
-
-#### **Figure 2b. Health programming drives client growth**
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 7
-#| fig-height: 5
-
-results_mean <- results %>%
-  bind_rows(
-    results %>%
-      group_by(sim, fy, region, type) %>%
-      summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
-      mutate(country = "Latin America")  # new label to distinguish these rows
-  ) %>%
-  group_by(fy, region, country, type) %>%
-  summarise(clients = mean(clients)) %>%
-  separate(
-    type,
-    into = c("sector", "gender"),
-    sep = "_",
-    remove = FALSE
-  ) %>%
-  mutate(
-    gender = case_when(
-      gender == "f" ~ "Female",
-      gender == "m" ~ "Male",
-      gender == "total" ~ "Total",
-      TRUE ~ gender
-    ),
-    clients_round = round(clients, digits = 0),
-    label = sapply(clients_round, format_number),
-    label_num = str_remove(label, " clients")
-  ) %>%
-  dplyr::select(-type)
-
+  
 # Country totals line chart
 chart_lines_sectors <- results_mean %>%
   filter(sector != "clients", gender == "Total", country == "Latin America") %>%
@@ -382,38 +354,11 @@ chart_lines_sectors_pp <- ggplotly(chart_lines_sectors, tooltip = "text") %>%
       yanchor = "bottom"
     )
   )
-
-# Wrap in <figure> with caption
-fig <- tags$figure(
-  chart_lines_sectors_pp,
-  tags$figcaption(
-    "Each line shows the estimated clients across all countries per sector. Click legend items to toggle sectors.",
-    class = "figure-caption"
-  )
-)
-
-fig
-
-```
-:::
-
-### Can I see more detail by sector and gender?
-
-Yes! The Annual Statistics is a set of more than 400 figures collected yearly across sectors. Using these figures we can break down the client count by sector and gender. Note that not all indicators are collected by gender. Some indicators are just overall service numbers. This is often the case for informational services, or services like vaccinations. In these cases, the statstical model imputes a gender ratio, based on existing gender ratios at different levels (ie, within a region, within a country, and by sector). Figure 3 shows the average (mean) client count across all simulations, divided by sector, with female, male and total values displayed.
-
-#### Figure 3. Most clients received health services, and most were women
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 7
-#| fig-height: 4
-
+  
 chart_sector <- results_median %>%
   filter(fy == "FY24", sector != "clients", country != "Latin America") %>%
   group_by(sector, gender) %>%
-  summarise(clients = sum(clients)) %>%
+  summarise(clients = sum(clients), .groups = "drop") %>%
   mutate(
     sector = case_when(
       sector == "edu" ~ "Education",
@@ -463,90 +408,6 @@ chart_sector <- results_median %>%
 
 chart_sector_pp <- ggplotly(chart_sector, tooltip = "text")
 
-# Wrap in <figure> with caption
-fig <- tags$figure(
-  chart_sector_pp,
-  tags$figcaption(
-    "Health represents the largest number of clients for the IRC in Latin America and a majority of services are delivered to women.",
-    class = "figure-caption"
-  )
-)
-
-fig
-
-
-```
-
-You might be thinking, why don’t the total numbers for each sector add up to the 331,000 clients? That's because the total accounts for double counting between sectors, ie, if a single person uses many services. While the Annual Statistics give a breakdown by indicator and sector, it doesn't account for double-counting between sectors. That's where the model comes into its own, because it models large numbers of scenarios to show what would happen where that overlap is large or small.
-
-### Can you tell me more about how the model works?
-
-Yes! The model doesn’t directly count clients because this would mean collecting data about all people who receive services. We don’t want to create barriers to our services, and some people feel uncomfortable sharing their details. In acute emergencies, it can also be logistically challenging to collect this information. Instead, we count the services provided as part of the Annual Statistics process to estimate the number of clients we served.
-
-Using these data collected, we run statistical simulations to estimate the total number of clients: around 331 thousand in Latin. But we also give a range—our best guess is 331k and we’re 90% confident that the number lies between 319k and 345k.
-
-How does the statistical model work? We perform simulations to account for various uncertainties in the data, like errors in counting services or people receiving multiple services, or cases where we don't collect information on a person's gender. We run the simulation over and over to give us realistic scenarios of the total client count if there are small variations in the underlying data and assumptions. The results give us more confidence in the estimate while factoring in things like measurement error and overlaps between different services.
-
-Figure 4 shows the results of 151 simulations.
-
-#### Figure 4. The 151 simulation results of the statistical model
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-cap: "Each dot is a simulation result of the total clients reached. Each dot represents a different simulation (count them just to be sure!). The blue dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value."
-# #| fig-cap-location: margin
-#| fig-width: 5
-#| fig-height: 10
-#| fig-align: "default"
-#| dev: "png"
-
-results_labelled <- results %>%
-  group_by(sim, fy, region, type) %>%
-  summarise(clients = sum(clients, na.rm = TRUE), .groups = "drop") %>%
-  separate(
-    type,
-    into = c("sector", "gender"),
-    sep = "_",
-    remove = FALSE
-  ) %>%
-  mutate(
-    gender = case_when(
-      gender == "f" ~ "Female",
-      gender == "m" ~ "Male",
-      gender == "total" ~ "Total",
-      TRUE ~ gender
-    ),
-    clients_round = round(clients, digits = 0),
-    label = sapply(clients_round, format_number),
-    label_num = str_remove(label, " clients")
-  ) %>%
-  dplyr::select(-type) %>%
-  filter(sector == "clients", gender == "Total")
-
-dotplot_data <- results_labelled %>%
-  filter(fy == "FY24", region == "Latin America", sector == "clients", gender == "Total")
-
-median_estimate <- median(dotplot_data$clients)
-max_value <- max(dotplot_data$clients)
-binwidth_val <- (max(dotplot_data$clients) - min(dotplot_data$clients)) / 30
-#  range_est <- range(plot_data$estimate)
-#  dynamic_binwidth <- diff(range_est) / 33
-
-dotplot_data <- dotplot_data %>%
-  mutate(
-    q05 = quantile(clients, 0.05),
-    q95 = quantile(clients, 0.95),
-    median = median(clients),
-    colour_cat = case_when(
-      clients == median ~ "median",
-      clients < q05 | clients > q95 ~ "outlier",
-      TRUE ~ "middle"
-    ),
-    colour_cat = factor(colour_cat, levels = c("outlier", "middle", "median")) # draw order
-  )
-
 chart_dotplot <- dotplot_data %>%
   ggplot(aes(x = clients, fill = colour_cat, colour = colour_cat)) +
   geom_dotplot(
@@ -568,8 +429,8 @@ chart_dotplot <- dotplot_data %>%
   )) +
   labs(x = NULL) +
   scale_x_continuous(
-    limits = c(310000, 350000),
-    breaks = c(310000, 320000, 330000, 340000, 350000),
+    limits = c(340000, 410000),
+    breaks = c(340000, 350000, 360000, 370000, 380000, 390000, 400000, 410000),
     labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
     expand = expansion(mult = c(.02, .03))
   ) +
@@ -582,7 +443,7 @@ chart_dotplot <- dotplot_data %>%
     axis.title.y = element_blank(),
     axis.title.x = element_text(family = "Inter", size = 14, margin = margin(t = 15)),
     axis.text.y = element_blank(),
-    axis.text.x = element_text(family = "Roboto Mono", size = 32)
+    axis.text.x = element_text(family = "Roboto Mono", size = 8)
   ) +
   annotate(
     "curve", 
@@ -592,9 +453,9 @@ chart_dotplot <- dotplot_data %>%
     yend = 0.24, 
     color = "grey40", 
     curvature = -.3, 
-    arrow = arrow(type = "closed", length = unit(0.2, "inches")),
+    arrow = arrow(type = "closed", length = unit(0.1, "inches")),
     lineend = "round", 
-    linewidth = 1
+    linewidth = .8
   ) +
   annotate(
     "text", 
@@ -602,31 +463,11 @@ chart_dotplot <- dotplot_data %>%
     y = 0.23,
     label = format_number(median_estimate),
     family = "Inter", 
-    size = 11,
+    size = 3,
     color = "grey40",
     hjust = 0, 
     vjust = 0
   )
-
-#chart_dotplot
-
-ggsave("chart_dotplot.png", chart_dotplot, width = 8, height = 4, dpi = 300, bg = "white")
-knitr::include_graphics("chart_dotplot.png")
-
-```
-
-Those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country.
-
-#### Figure 5. Client reach in FY24 varies by country, with uncertainty ranges shown
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 7
-#| fig-height: 4
-#| fig-cap: "Note: In FY24, more clients were reached in El Salvador and Venezuela. This chart shows the central estimate for each country (the dot) as well as the plausible range of values (the thin line is the 95% confidence interval and the thick line is the 66% confidence interval). The text shows the median, or central estimate (ie, the value shown by the dot). "
-#| fig-align: "center"
 
 model_summary <- results %>%
   separate(
@@ -649,7 +490,8 @@ model_summary <- results %>%
   summarise(
     mean_val = mean(clients, na.rm = TRUE),
     median_val = median(clients, na.rm = TRUE),
-    q95 = quantile(clients, 0.95, na.rm = TRUE)
+    q95 = quantile(clients, 0.95, na.rm = TRUE),
+    .groups = "drop"
   ) %>%
   ungroup() %>%
   mutate(
@@ -659,9 +501,36 @@ model_summary <- results %>%
     label_num = str_remove(label, " clients")
   )
 
+# Set colours by country
+colour_palette <- c(
+  "Colombia" = "#FF5630",
+  "Ecuador" = "#0052CC",
+  "El Salvador" = "#006644",
+  "Guatemala" = "#36B37E",
+  "Honduras" = "#ABF5D1",
+  "Mexico" = "#172B4D",
+  "Peru" = "#6554C0",
+  "Venezuela" = "#FFAB00"
+)
+
+# First, reorder by median value
+ordered_countries <- model_summary %>%
+  arrange(median_val) %>%
+  pull(country)
+
+# Then, intersect with palette to avoid unmatched levels
+ordered_countries <- intersect(ordered_countries, names(colour_palette))
+
+# Apply to results
+results <- results %>%
+  mutate(country = factor(country, levels = ordered_countries))
+
+# Filter palette to match
+colour_palette <- colour_palette[ordered_countries]
+
 chart_dist <- results %>%
   filter(type == "clients_total", fy == "FY24") %>%
-  ggplot(aes(x = clients, y = country, fill = country, colour = country)) +
+  ggplot(aes(x = clients, y = country, fill = country)) +
 #  geom_col(data = results_median %>% filter(sector == "clients", gender == "Total", fy == "FY24", country != "Latin America"), aes(x = clients), alpha = .8) +
   stat_gradientinterval(
     .width = c(0.66, 0.95),  # Displaying 66% and 95% intervals
@@ -678,26 +547,8 @@ chart_dist <- results %>%
     breaks = c(0, 25000, 50000, 75000, 100000, 125000),
     labels = scales::label_number(scale_cut = scales::cut_short_scale())
   ) +
-  scale_colour_manual(values = c(
-    "Colombia" = "#FF5630",
-    "Ecuador" = "#0052CC",
-    "El Salvador" = "#006644",
-    "Guatemala" = "#36B37E",
-    "Honduras" = "#ABF5D1",
-    "Mexico" = "#172B4D",
-    "Peru" = "#6554C0",
-    "Venezuela" = "#FFAB00"
-  )) +
-  scale_fill_manual(values = c(
-    "Colombia" = "#FF5630",
-    "Ecuador" = "#0052CC",
-    "El Salvador" = "#006644",
-    "Guatemala" = "#36B37E",
-    "Honduras" = "#ABF5D1",
-    "Mexico" = "#172B4D",
-    "Peru" = "#6554C0",
-    "Venezuela" = "#FFAB00"
-  )) +
+#  scale_colour_manual(values = colour_palette) +
+  scale_fill_manual(values = colour_palette) +
   labs(
     x = NULL,
     y = NULL
@@ -709,8 +560,172 @@ chart_dist <- results %>%
     axis.text.y = element_text(family = "Inter", size = 12)
   )
 
-chart_dist
+```
 
+::: callout-irc
+[📢]{.big-number} In **FY24**, the IRC reached an estimated [366,300]{.big-number} clients across **Latin America**.
+:::
+
+### Why an estimate, not a count?
+
+Counting people reached by humanitarian services sounds straightforward. In reality, it rarely is.
+
+The IRC’s first priority is to deliver help, not to collect data or complete paperwork. If someone comes for support but doesn’t wish to share personal details, we don’t turn them away. In emergencies, collecting demographic information can be impractical, even unsafe. We don't insist on it. This means we can't necessarily track whether a given individual who used one service later used another. And because many clients receive more than one type of service—health care, protection, education, or livelihoods—we can't simply add up service counts. That would inflate the total through double-counting.
+
+That does not mean measurement is taken lightly. Instead, the IRC in Latam uses a statistical model built on our Annual Statistics, which track progress across individual services. The model blends these service counts with assumptions about overlap and uncertainty, giving us an estimate of unique clients—and a way to report how confident we are in that number.
+
+The result: **in FY24 the IRC reached around 366,300 people in Latin America**. Statistically, we are 90% confident the true figure lies between 352,500 and 388,400. (This does not yet include people reached through online or mass-media campaigns such as the Signpost project.)
+
+The number is an estimate, but not a guess. It reflects hundreds of thousands of real encounters with people seeking help.
+
+### How has the IRC's reach changed over time?
+
+Since **FY19**, IRC’s presence in Latin America has increased more than **seven-fold**, from **53,800 people** to **366,300**. Starting in 2019, the IRC's footprint was modest, rising to 452,000 in 2022, before tailing off. Today's reach, 331k per year, represents around **1,000 people receiving a service per day**. Figure 1 shows the sharp rise in client numbers.
+
+#### Figure 1. The IRC's reach in Latin America has grown seven-fold since 2019
+```{r}
+
+#| label: chart_overview
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 5
+#| fig-align: "center"
+#| fig-cap: "Estimate of the number of clients reach across all countries and service types / sectors, based on #IRC Latam's model.The sharp rise reflects expansion across countries and sectors. Figures are the median #values generated by the model. Hover over the bars to see the numbers."
+
+# Wrap in <figure> with caption
+fig <- tags$figure(
+  chart_overview_pp,
+  tags$figcaption(
+    "Estimate of the number of clients reach across all countries and service types / sectors, based on IRC Latam's model.The sharp rise reflects expansion across countries and sectors. Figures are the median values generated by the model. Hover over the bars to see the numbers.",
+    class = "figure-caption"
+  )
+)
+
+fig
+
+```
+
+### Where did this happen?
+
+Much of this increase has come from the expansion of the IRC’s presence across different countries. In particular, IRC began working in Venezuela in FY20. IRC’s work in Ecuador, Peru and Mexico contributed significantly. At the same time, IRC’s work in Colombia and North Central America ramped up considerably during the period.
+
+::: panel-tabset
+#### **Figure 2a. IRC's geographic expansion**
+```{r}
+
+#| label: chart_countries
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 5
+
+# Wrap in <figure> with caption
+fig <- tags$figure(
+  chart_lines_countries_pp,
+  tags$figcaption(
+    "Each line shows the estimated clients per country. From FY19 to FY21, North Central America (NCA) was counted as a single country. From FY22 the numbers were separated out. Click legend items to toggle countries.",
+    class = "figure-caption"
+  )
+)
+
+fig
+
+```
+
+#### **Figure 2b. Health programming drives client growth**
+```{r}
+
+#| label: chart_sectors
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 5
+
+# Wrap in <figure> with caption
+fig <- tags$figure(
+  chart_lines_sectors_pp,
+  tags$figcaption(
+    "Each line shows the estimated clients across all countries per sector. Click legend items to toggle sectors.",
+    class = "figure-caption"
+  )
+)
+
+fig
+
+```
+:::
+
+### Can I see more detail by sector and gender?
+
+Yes! The Annual Statistics is a set of more than 400 figures collected yearly across sectors. Using these figures we can break down the client count by sector and gender. Note that not all indicators are collected by gender. Some indicators are just overall service numbers. This is often the case for informational services, or services like vaccinations. In these cases, the statstical model imputes a gender ratio, based on existing gender ratios at different levels (ie, within a region, within a country, and by sector). Figure 3 shows the average (mean) client count across all simulations, divided by sector, with female, male and total values displayed.
+
+#### Figure 3. Most clients received health services, and most were women
+```{r}
+
+#| label: chart_gender
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 4
+
+# Wrap in <figure> with caption
+fig <- tags$figure(
+  chart_sector_pp,
+  tags$figcaption(
+    "Health represents the largest number of clients for the IRC in Latin America and a majority of services are delivered to women.",
+    class = "figure-caption"
+  )
+)
+
+fig
+
+```
+
+You might be thinking, why don’t the total numbers for each sector add up to the 331,000 clients? That's because the total accounts for double counting between sectors, ie, if a single person uses many services. While the Annual Statistics give a breakdown by indicator and sector, it doesn't account for double-counting between sectors. That's where the model comes into its own, because it models large numbers of scenarios to show what would happen where that overlap is large or small.
+
+### Can you tell me more about how the model works?
+
+Yes! The model doesn’t directly count clients because this would mean collecting data about all people who receive services. We don’t want to create barriers to our services, and some people feel uncomfortable sharing their details. In acute emergencies, it can also be logistically challenging to collect this information. Instead, we count the services provided as part of the Annual Statistics process to estimate the number of clients we served.
+
+Using these data collected, we run statistical simulations to estimate the total number of clients: around 331 thousand in Latin. But we also give a range—our best guess is 331k and we’re 90% confident that the number lies between 319k and 345k.
+
+How does the statistical model work? We perform simulations to account for various uncertainties in the data, like errors in counting services or people receiving multiple services, or cases where we don't collect information on a person's gender. We run the simulation over and over to give us realistic scenarios of the total client count if there are small variations in the underlying data and assumptions. The results give us more confidence in the estimate while factoring in things like measurement error and overlaps between different services.
+
+Figure 4 shows the results of 151 simulations.
+
+#### Figure 4. The 151 simulation results of the statistical model
+```{r}
+#| label: chart_dotplot_render
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Each dot is a simulation result of the total clients reached. Each dot represents a different simulation (count them just to be sure!). The purple dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value. The tru value is most likely the median, but we are almost certain it falls within the range of the teal dots."
+#| fig-width: 5
+#| fig-height: 3
+#| fig-align: "center"
+
+chart_dotplot
+```
+
+Those are the results of the full model for Latin America. But since the Annual Statistics are collected by country, we can also show the results at a country level. Figure 5 shows the range of estimates generated for each country.
+
+#### Figure 5. Client reach in FY24 varies by country, with uncertainty ranges shown
+```{r}
+#| label: chart_distributions_render
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Note: In FY24, more clients were reached in El Salvador and Venezuela. This chart shows the central estimate for each country (the dot) as well as the plausible range of values (the thin line is the 95% confidence interval and the thick line is the 66% confidence interval). The text shows the median, or central estimate (ie, the value shown by the dot)."
+#| fig-width: 7
+#| fig-height: 4
+#| fig-align: "center"
+
+chart_dist
 ```
 
 ### For those looking for more technical details

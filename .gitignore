@@ -36,6 +36,10 @@ Pictures/
 Sites/
 
 # Temporary or backup files
-*~ 
+*~
 *.bak
 *.tmp
+
+/.quarto/
+
+**/*.quarto_ipynb
