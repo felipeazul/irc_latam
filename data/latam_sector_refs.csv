@@ -1,0 +1,59 @@
+data_element_code,outcome,sap_sector,n,value
+EDU.007,education,safety,6191,30614
+EDU.094,education,safety,1057,5030
+EDU.101,education,safety,3624,48297
+EDU.102,education,education,6644,57910
+ENH.034,health - environmental health,health,906,6264.285408013154
+ENH.037,health - environmental health,wellbeing,2265,23349
+EWB.031,erd,wellbeing,604,1507
+EWB.033,erd,wellbeing,906,1620
+EWB.040,erd,wellbeing,7852,228826.27152317882
+EWB.042,erd,wellbeing,906,1450.3708609271523
+EWB.044,erd,wellbeing,302,166.3841059602649
+EWB.054,erd,wellbeing,1510,1014
+EWB.055,erd,wellbeing,1963,7630
+EWB.056,erd,wellbeing,2265,2695
+EWB.082,erd,wellbeing,2114,17874.264900662252
+EWB.083,erd,wellbeing,302,164.34437086092714
+EWB.084,erd,wellbeing,3322,10793
+GBV.002,women's protection & empowerment,wellbeing,5134,17718.422055713494
+GBV.004,women's protection & empowerment,safety,9664,166010
+GBV.021,women's protection & empowerment,safety,5889,18049
+GBV.022,women's protection & empowerment,safety,1661,272
+NUT.005,health - nutrition,health,1208,266
+NUT.006,health - nutrition,health,1510,761
+NUT.058,health - nutrition,health,151,32.41751455881905
+PHC.037,health - primary health care,health,5134,157270.60389275945
+PHC.050,health - primary health care,health,11778,8287.44969207568
+PHC.078,health - primary health care,health,4832,74539.921765462
+PHC.079,health - primary health care,health,2114,9186
+PHC.pop,health - catchment,health_catchment,6040,7942574.939382831
+POW.053,education,power,302,153
+POW.053,governance,power,604,30
+POW.055.cp,child protection,power,1812,806
+POW.055.ew,erd,power,906,88
+POW.055.gv,governance,power,604,88
+POW.055.pl,protection rule of law,power,2416,1137
+POW.055.wp,women's protection & empowerment,power,2416,1098
+POW.069,protection rule of law,wellbeing,1208,3819
+POW.078,protection rule of law,power,302,52
+POW.081,governance,power,151,4
+SHC.002,protection rule of law,power,2416,151452
+SHC.003,protection rule of law,power,1359,8726
+SHC.004,protection rule of law,power,3322,53450
+SHC.007,protection rule of law,power,1208,1726
+SHC.013,protection rule of law,safety,2416,44377
+SHC.033,women's protection & empowerment,power,906,1234
+SHC.037,protection rule of law,safety,302,185
+SHC.045,women's protection & empowerment,safety,2114,2864.847959738175
+SHC.046,women's protection & empowerment,safety,3624,13798.718310358761
+SHC.047,child protection,safety,5134,10547
+SHC.065,women's protection & empowerment,safety,302,30
+SHC.905,child protection,safety,1812,6983
+SHC.906,child protection,safety,1208,3957
+SIC.004,protection rule of law,safety,302,318
+SIC.009,protection rule of law,power,4832,97319.00257083897
+SIC.018,women's protection & empowerment,safety,302,186
+SRH.001,health - sexual & reproductive health,health,3473,69878.79087997635
+SRH.021,health - sexual & reproductive health,health,2114,4158.162087370824
+SRH.028,health - sexual & reproductive health,health,1812,18474.036898740575
