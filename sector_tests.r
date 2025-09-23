@@ -1,7 +1,9 @@
 
 library(tidyverse)
 library(showtext)
+library(ggtext)
 library(plotly)
+library(ggdist)
 
 font_add_google(name = "Roboto Mono", family = "Roboto Mono")
 font_add_google(name = "Inter", family = "Inter")
@@ -159,3 +161,123 @@ chart_lines_sectors <- results_mean %>%
   )
 
 gg_chart_lines_sectors <- ggplotly(chart_lines_sectors, tooltip = "text")
+
+ydat <- results %>%
+  filter(type == "clients_total") %>%
+#  filter(country == "Ecuador") %>%
+#  filter(country == "Peru") %>%
+  group_by(fy, sim) %>%
+  summarise(
+    clients = sum(clients)
+  ) %>%
+  group_by(fy) %>%
+  mutate(
+    median = median(clients),
+    upper_lim = quantile(clients, .95),
+    label = sapply(median, format_number),
+    label_num = str_remove(label, " clients")
+  ) %>%
+  ungroup()
+
+xdat <- ydat %>%
+  group_by(fy) %>%
+  summarise(
+    lower_ci = quantile(clients, .05),
+    median = median(clients),
+    upper_ci = quantile(clients, .95)
+  ) %>%
+  mutate(
+    fill_col = factor(case_when(
+#      fy == "FY24" ~ "#0052CC",
+      fy == "FY24" ~ "#FFC72C",
+#      TRUE ~ "#00B8D9",
+      TRUE ~ "#666666")
+    ),
+    clients_round = round(median, digits = 0),
+    label = sapply(clients_round, format_number),
+    label_num = str_remove(label, " clients"),
+    lower_ci_lab = sapply(lower_ci, format_number),
+    lower_ci_lab_num = str_remove(lower_ci_lab, " clients"),
+    upper_ci_lab = sapply(upper_ci, format_number),
+    upper_ci_lab_num = str_remove(upper_ci_lab, " clients"),
+    conf_range = str_c("(", lower_ci_lab_num, "~", upper_ci_lab_num, ")"),
+#    lab_text = str_c(label, "\n", conf_range),
+    lab_text = str_c(
+      "<span style='font-family:Inter; font-size:14pt; font-weight:bold;'>", "**",label_num, "**", "</span><br>",
+      "<span style='font-family:Inter; font-size:10pt;'>", conf_range, "</span>"
+    )
+  )
+
+# Option 1: column chart with error lines
+xdat %>%
+  ggplot(aes(
+    x = fy, y = median, fill = fill_col, text = paste0(fy, "<br>", label)
+  )) +
+  geom_col(alpha = .70) +
+  geom_pointrange(aes(
+    ymin = lower_ci, ymax = upper_ci
+  )) +
+  geom_text(aes(
+    x = fy, y = upper_ci + 25000, label = label),
+    colour = "black", size = 3.5, family = "Inter"
+  ) +
+#  geom_richtext(
+#    aes(x = fy, y = upper_ci + 40000, label = lab_text),
+#    fill = NA, label.color = NA
+#    colour = "black", size = 3.5, family = "Inter"
+#  ) +
+  scale_y_continuous(
+    limits = c(0, 600000),
+    breaks = c(0, 100000, 200000, 300000, 400000, 500000, 600000),
+    labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
+    expand = expansion(mult = c(.01, .05))
+  ) +
+  labs(
+    x = NULL,
+    y = NULL
+  ) +
+  scale_fill_identity() +
+  theme_minimal() +
+  theme(
+    legend.position = "none", 
+    axis.title.y = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    axis.title.x = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    axis.text.y = element_text(family = "Inter", size = 12),
+    axis.text.x = element_text(family = "Roboto Mono", size = 12)
+  )
+
+# Option 2: line graph with error areas
+ydat %>%
+  ggplot(aes(
+    x = fy,
+    y = clients,
+    colour = "#FFC72C",
+    fill = "#FFC72C"
+  )) +
+  stat_lineribbon(alpha = 1/4) +
+  geom_label(
+    data = xdat,
+    aes(x = fy, y = upper_ci + 20000, label = label_num),
+    colour = "black", size = 3.5, family = "Inter"
+  ) +
+  scale_y_continuous(
+    limits = c(0, 600000),
+    breaks = c(0, 100000, 200000, 300000, 400000, 500000, 600000),
+    labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
+    expand = expansion(mult = c(.01, .05))
+  ) +
+  scale_fill_identity() +
+  scale_colour_identity() +
+  labs(
+    x = NULL,
+    y = NULL
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none", 
+    axis.title.y = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    axis.title.x = element_text(family = "Inter", size = 18, margin = margin(t = 15)),
+    axis.text.y = element_text(family = "Inter", size = 12),
+    axis.text.x = element_text(family = "Roboto Mono", size = 12)
+  )
+
