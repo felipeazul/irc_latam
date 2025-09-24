@@ -391,8 +391,8 @@ chart_sector <- results_median %>%
   ) +
   scale_fill_manual(values = c(
     "Total" = "#FFC72C",
-    "Female" = "#0052CC",
-    "Male" = "#6554C0"
+    "Female" = "#D1D1D1",
+    "Male" = "#666666"
   )) +
   labs(
     x = NULL,
@@ -716,7 +716,7 @@ Figure 4 shows the results of 151 simulations.
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Each dot is a simulation result of the total clients reached. Each dot represents a different simulation. The purple dot is the central estimate, and the teal ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value. The tru value is most likely the median, but we are almost certain it falls within the range of the teal dots."
+#| fig-cap: "Each dot is a simulation result of the total clients reached. Each dot represents a different simulation. The black dot is the central estimate, and the yellow ones show a 90% confidence interval. The grey ones are outlier results of the simulations. In other words, they are less likely to be the true value. The true value is most likely the median, but we are almost certain it falls within the range of the yellow dots."
 #| fig-width: 5
 #| fig-height: 3
 #| fig-align: "center"
