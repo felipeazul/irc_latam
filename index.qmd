@@ -1,5 +1,5 @@
 ---
-title: "The IRC's reach in Latin America has increased seven-fold since 2019 [DRAFT]"
+title: "The IRC's reach in Latin America has increased seven-fold since 2019 [TEST]"
 format: html
 ---
 
