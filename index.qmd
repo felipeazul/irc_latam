@@ -391,7 +391,7 @@ chart_sector <- results_median %>%
   ) +
   scale_fill_manual(values = c(
     "Total" = "#FFC72C",
-    "Female" = "#D1D1D1",
+    "Female" = "#383838",
     "Male" = "#666666"
   )) +
   labs(
@@ -703,7 +703,7 @@ You might be thinking, why don’t the total numbers for each sector add up to t
 
 Yes! The model doesn’t directly count clients because this would mean collecting data about all people who receive services. We don’t want to create barriers to our services, and some people feel uncomfortable sharing their details. In acute emergencies, it can also be logistically challenging to collect this information. Instead, we count the services provided as part of the Annual Statistics process to estimate the number of clients we served.
 
-Using these data collected, we run statistical simulations to estimate the total number of clients: around 366,300 clients. But we also give a range—our best guess is 366,300 and we’re 90% confident that the number lies between 352,600 and 388,400.
+Using these data collected, we run statistical simulations to estimate the total number of clients: around 366,300 clients in FY24. But we also give a range—our best guess is 366,300 and we’re 90% confident that the number for FY24 lies between 352,600 and 388,400.
 
 How does the statistical model work? We perform simulations to account for various uncertainties in the data, like errors in counting services or people receiving multiple services, or cases where we don't collect information on a person's gender. We run the simulation over and over to give us realistic scenarios of the total client count if there are small variations in the underlying data and assumptions. The results give us more confidence in the estimate while factoring in things like measurement error and overlaps between different services.
 
