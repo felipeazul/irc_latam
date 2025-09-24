@@ -7,7 +7,6 @@
 # Quarto build artifacts
 _quarto/
 _freeze/
-docs/*.html
 docs/*.pdf
 docs/*.docx
 
