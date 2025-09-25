@@ -3,10 +3,13 @@ project:
   output-dir: docs
 
 website: 
-  title: "IRC Latin America"
+  title: |
+    <a href="https://www.rescue.org" class="brand-logo">
+      <img src="images/irc_logo.png" alt="IRC Logo">
+    </a>
   navbar: 
     left: 
-      - text: "Client reach"
+      - text: "Latin America client reach"
         href: index.qmd
   
 execute:

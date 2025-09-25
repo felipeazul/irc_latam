@@ -192,3 +192,28 @@ figcaption,
   font-size: 1.3em; /* bump up size */
 }
 
+.navbar {
+  position: relative;
+}
+
+/* logo container */
+/*.navbar .brand-logo { */
+/*  position: absolute; */
+/*  top: 10px; */
+/*  left: 10px; */
+/*  z-index: 10; */
+/*} */
+
+/* the logo image */
+.navbar .brand-logo img {
+  height: 40px;
+  width: auto;
+/*  display: block; */
+}
+
+/* adjust the navbar link text */
+/*.navbar-nav > li > a { */
+/*  padding-left: 110px; */
+/*  line-height: 56px; */
+/*}
+
