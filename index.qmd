@@ -18,9 +18,9 @@ library(htmltools)
 
 model_data_06_overlap <- read_csv("data/modeled_data_latam.csv")
 
-#font_add_google(name = "Roboto Mono", family = "Roboto Mono")
-#font_add_google(name = "Inter", family = "Inter")
-#showtext_auto()
+font_add_google(name = "Roboto Mono", family = "Roboto Mono")
+font_add_google(name = "Inter", family = "Inter")
+showtext_auto()
 
 #### Define formulas ####
 format_number <- function(x) {
