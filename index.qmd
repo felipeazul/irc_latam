@@ -197,8 +197,8 @@ chart_overview <- results_median %>%
     )) +
   geom_col(alpha = .7) +
   geom_text(aes(
-    x = fy, y = clients + 35000, label = label),
-    colour = "black", size = 3.5, family = "Inter"
+    x = fy, y = clients + 35000, label = label_num),
+    colour = "black", size = 4, family = "Inter"
   ) +
   scale_y_continuous(
     labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
@@ -381,9 +381,9 @@ chart_sector <- results_median %>%
         text = paste0(sector, "<br>", gender, "<br>", label)
     )) +
   geom_col(
-    alpha = .7,
+    alpha = .8,
     colour = "white",
-    position = position_dodge(width = .5)
+    position = position_dodge(width = .7)
   ) +
   scale_y_continuous(
     labels = scales::label_number(scale_cut = scales::cut_short_scale(), accuracy = 1),
@@ -392,7 +392,7 @@ chart_sector <- results_median %>%
   scale_fill_manual(values = c(
     "Total" = "#FFC72C",
     "Female" = "#383838",
-    "Male" = "#666666"
+    "Male" = "#D1D1D1"
   )) +
   labs(
     x = NULL,
