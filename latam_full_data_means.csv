@@ -1,0 +1,199 @@
+region,country,gender,sector,FY19,FY20,FY21,FY22,FY23,FY24
+Latin America,Colombia,total,Child Protection,81,179,276,233,4642,NA
+Latin America,Colombia,female,Child Protection,50,94,147,132,2510,NA
+Latin America,Colombia,male,Child Protection,31,85,129,101,2132,NA
+Latin America,Colombia,total,Economic Recovery & Development,1541,23390,31922,48963,45824,18987
+Latin America,Colombia,female,Economic Recovery & Development,884,13269,18855,29698,28090,12287
+Latin America,Colombia,male,Economic Recovery & Development,657,10121,13067,19265,17734,6701
+Latin America,Colombia,total,Primary Healthcare,2303,9078,43847,32688,36874,NA
+Latin America,Colombia,female,Primary Healthcare,1879,6632,28421,21674,26164,NA
+Latin America,Colombia,male,Primary Healthcare,424,2447,15426,11013,10710,NA
+Latin America,Colombia,total,Sexual & Reproductive Health,5537,10564,14817,16170,7564,NA
+Latin America,Colombia,female,Sexual & Reproductive Health,5224,8869,11022,11821,7564,NA
+Latin America,Colombia,male,Sexual & Reproductive Health,312,1695,3795,4348,0,NA
+Latin America,Colombia,total,Total Health Clients,48117,96226,86485,153024,123003,NA
+Latin America,Colombia,female,Total Health Clients,43027,74426,57850,103452,88405,NA
+Latin America,Colombia,male,Total Health Clients,5089,21800,28635,49572,34598,NA
+Latin America,Colombia,total,Women's Protection & Empowerment,3910,3316,11164,19647,20608,1553
+Latin America,Colombia,female,Women's Protection & Empowerment,3906,3256,9268,17340,18213,1029
+Latin America,Colombia,male,Women's Protection & Empowerment,4,60,1896,2307,2395,523
+Latin America,NCA,total,Economic Recovery & Development,2852,2985,3592,NA,NA,NA
+Latin America,NCA,female,Economic Recovery & Development,1524,1772,2031,NA,NA,NA
+Latin America,NCA,male,Economic Recovery & Development,1328,1213,1562,NA,NA,NA
+Latin America,NCA,total,Protection & Rule of Law,135,4233,2262,NA,NA,NA
+Latin America,NCA,female,Protection & Rule of Law,55,2582,1327,NA,NA,NA
+Latin America,NCA,male,Protection & Rule of Law,80,1650,935,NA,NA,NA
+Latin America,Mexico,total,Environmental Health,NA,82,1822,NA,NA,NA
+Latin America,Mexico,female,Environmental Health,NA,82,672,NA,NA,NA
+Latin America,Mexico,male,Environmental Health,NA,0,1150,NA,NA,NA
+Latin America,Mexico,total,Total Health Clients,NA,1,2059,3831,5449,6780
+Latin America,Mexico,female,Total Health Clients,NA,1,1150,2256,3283,4090
+Latin America,Mexico,male,Total Health Clients,NA,0,909,1575,2165,2690
+Latin America,Mexico,total,Protection & Rule of Law,NA,1066,10939,20230,11381,10949
+Latin America,Mexico,female,Protection & Rule of Law,NA,887,5066,9701,6023,5887
+Latin America,Mexico,male,Protection & Rule of Law,NA,179,5873,10528,5358,5062
+Latin America,Mexico,total,Women's Protection & Empowerment,NA,1746,7556,863,932,424
+Latin America,Mexico,female,Women's Protection & Empowerment,NA,1532,4202,513,612,301
+Latin America,Mexico,male,Women's Protection & Empowerment,NA,214,3354,350,320,123
+Latin America,Venezuela,total,Nutrition,NA,329,82,113,NA,120
+Latin America,Venezuela,female,Nutrition,NA,162,43,52,NA,75
+Latin America,Venezuela,male,Nutrition,NA,167,39,61,NA,45
+Latin America,Venezuela,total,Sexual & Reproductive Health,NA,1441,3334,5702,8505,8584
+Latin America,Venezuela,female,Sexual & Reproductive Health,NA,1144,2240,3989,8505,8582
+Latin America,Venezuela,male,Sexual & Reproductive Health,NA,298,1093,1714,0,2
+Latin America,Venezuela,total,Total Health Clients,NA,14160,39801,118337,24778,103557
+Latin America,Venezuela,female,Total Health Clients,NA,10393,26090,76089,20660,80770
+Latin America,Venezuela,male,Total Health Clients,NA,3767,13712,42248,4118,22787
+Latin America,Venezuela,total,Women's Protection & Empowerment,NA,1032,3562,10037,12447,12547
+Latin America,Venezuela,female,Women's Protection & Empowerment,NA,1025,3453,6937,10694,9959
+Latin America,Venezuela,male,Women's Protection & Empowerment,NA,7,109,3100,1754,2588
+Latin America,Colombia,total,Education,NA,NA,26918,22706,35625,13319
+Latin America,Colombia,female,Education,NA,NA,16707,12922,20336,7197
+Latin America,Colombia,male,Education,NA,NA,10211,9784,15289,6122
+Latin America,Ecuador,total,Environmental Health,NA,NA,1036,9086,NA,NA
+Latin America,Ecuador,female,Environmental Health,NA,NA,673,5577,NA,NA
+Latin America,Ecuador,male,Environmental Health,NA,NA,363,3509,NA,NA
+Latin America,Ecuador,total,Women's Protection & Empowerment,NA,NA,326,1067,1755,2381
+Latin America,Ecuador,female,Women's Protection & Empowerment,NA,NA,222,646,1537,1670
+Latin America,Ecuador,male,Women's Protection & Empowerment,NA,NA,104,421,218,711
+Latin America,Mexico,total,Economic Recovery & Development,NA,NA,849,4599,5626,852
+Latin America,Mexico,female,Economic Recovery & Development,NA,NA,361,1985,2469,366
+Latin America,Mexico,male,Economic Recovery & Development,NA,NA,488,2614,3156,487
+Latin America,Mexico,total,Primary Healthcare,NA,NA,277,3111,4023,4911
+Latin America,Mexico,female,Primary Healthcare,NA,NA,143,1783,2396,2976
+Latin America,Mexico,male,Primary Healthcare,NA,NA,134,1328,1627,1935
+Latin America,NCA,total,Child Protection,NA,NA,144,NA,NA,NA
+Latin America,NCA,female,Child Protection,NA,NA,91,NA,NA,NA
+Latin America,NCA,male,Child Protection,NA,NA,53,NA,NA,NA
+Latin America,NCA,total,Women's Protection & Empowerment,NA,NA,549,NA,NA,NA
+Latin America,NCA,female,Women's Protection & Empowerment,NA,NA,532,NA,NA,NA
+Latin America,NCA,male,Women's Protection & Empowerment,NA,NA,17,NA,NA,NA
+Latin America,Venezuela,total,Child Protection,NA,NA,15,88,445,282
+Latin America,Venezuela,female,Child Protection,NA,NA,7,48,208,127
+Latin America,Venezuela,male,Child Protection,NA,NA,8,40,238,154
+Latin America,Venezuela,total,Education,NA,NA,8083,3707,1851,5107
+Latin America,Venezuela,female,Education,NA,NA,4848,2043,1325,3599
+Latin America,Venezuela,male,Education,NA,NA,3234,1665,526,1508
+Latin America,Venezuela,total,Economic Recovery & Development,NA,NA,698,5274,NA,NA
+Latin America,Venezuela,female,Economic Recovery & Development,NA,NA,399,3069,NA,NA
+Latin America,Venezuela,male,Economic Recovery & Development,NA,NA,300,2206,NA,NA
+Latin America,Venezuela,total,Environmental Health,NA,NA,1560,8758,NA,NA
+Latin America,Venezuela,female,Environmental Health,NA,NA,929,5579,NA,NA
+Latin America,Venezuela,male,Environmental Health,NA,NA,631,3179,NA,NA
+Latin America,Venezuela,total,Primary Healthcare,NA,NA,1659,12136,16273,13056
+Latin America,Venezuela,female,Primary Healthcare,NA,NA,1067,7607,12155,9025
+Latin America,Venezuela,male,Primary Healthcare,NA,NA,591,4530,4118,4031
+Latin America,Colombia,total,Nutrition,NA,NA,NA,379,NA,NA
+Latin America,Colombia,female,Nutrition,NA,NA,NA,211,NA,NA
+Latin America,Colombia,male,Nutrition,NA,NA,NA,169,NA,NA
+Latin America,Colombia,total,Protection & Rule of Law,NA,NA,NA,30157,406,NA
+Latin America,Colombia,female,Protection & Rule of Law,NA,NA,NA,22897,304,NA
+Latin America,Colombia,male,Protection & Rule of Law,NA,NA,NA,7260,102,NA
+Latin America,Ecuador,total,Education,NA,NA,NA,337,744,5648
+Latin America,Ecuador,female,Education,NA,NA,NA,230,511,3975
+Latin America,Ecuador,male,Education,NA,NA,NA,106,233,1673
+Latin America,Ecuador,total,Economic Recovery & Development,NA,NA,NA,7320,527,NA
+Latin America,Ecuador,female,Economic Recovery & Development,NA,NA,NA,4459,325,NA
+Latin America,Ecuador,male,Economic Recovery & Development,NA,NA,NA,2862,202,NA
+Latin America,Ecuador,total,Governance,NA,NA,NA,30,NA,153
+Latin America,Ecuador,female,Governance,NA,NA,NA,22,NA,142
+Latin America,Ecuador,male,Governance,NA,NA,NA,8,NA,11
+Latin America,Ecuador,total,Primary Healthcare,NA,NA,NA,7415,3077,4426
+Latin America,Ecuador,female,Primary Healthcare,NA,NA,NA,5251,2251,3049
+Latin America,Ecuador,male,Primary Healthcare,NA,NA,NA,2163,825,1378
+Latin America,Ecuador,total,Total Health Clients,NA,NA,NA,61093,18575,24254
+Latin America,Ecuador,female,Total Health Clients,NA,NA,NA,41383,14245,16940
+Latin America,Ecuador,male,Total Health Clients,NA,NA,NA,19709,4330,7315
+Latin America,El Salvador,total,Economic Recovery & Development,NA,NA,NA,7753,7274,11786
+Latin America,El Salvador,female,Economic Recovery & Development,NA,NA,NA,4166,4047,6257
+Latin America,El Salvador,male,Economic Recovery & Development,NA,NA,NA,3587,3227,5529
+Latin America,El Salvador,total,Protection & Rule of Law,NA,NA,NA,28652,74216,95159
+Latin America,El Salvador,female,Protection & Rule of Law,NA,NA,NA,10939,49418,62582
+Latin America,El Salvador,male,Protection & Rule of Law,NA,NA,NA,17713,24798,32576
+Latin America,El Salvador,total,Women's Protection & Empowerment,NA,NA,NA,5145,3229,5728
+Latin America,El Salvador,female,Women's Protection & Empowerment,NA,NA,NA,4091,2783,5246
+Latin America,El Salvador,male,Women's Protection & Empowerment,NA,NA,NA,1054,446,482
+Latin America,Guatemala,total,Economic Recovery & Development,NA,NA,NA,1382,5801,13831
+Latin America,Guatemala,female,Economic Recovery & Development,NA,NA,NA,889,3266,8374
+Latin America,Guatemala,male,Economic Recovery & Development,NA,NA,NA,492,2535,5456
+Latin America,Guatemala,total,Protection & Rule of Law,NA,NA,NA,512,11029,7583
+Latin America,Guatemala,female,Protection & Rule of Law,NA,NA,NA,319,7244,4799
+Latin America,Guatemala,male,Protection & Rule of Law,NA,NA,NA,192,3784,2785
+Latin America,Guatemala,total,Women's Protection & Empowerment,NA,NA,NA,3055,2634,10922
+Latin America,Guatemala,female,Women's Protection & Empowerment,NA,NA,NA,2097,2118,8270
+Latin America,Guatemala,male,Women's Protection & Empowerment,NA,NA,NA,957,516,2652
+Latin America,Honduras,total,Economic Recovery & Development,NA,NA,NA,514,1748,5855
+Latin America,Honduras,female,Economic Recovery & Development,NA,NA,NA,292,1031,3640
+Latin America,Honduras,male,Economic Recovery & Development,NA,NA,NA,222,717,2215
+Latin America,Honduras,total,Protection & Rule of Law,NA,NA,NA,208,6932,4714
+Latin America,Honduras,female,Protection & Rule of Law,NA,NA,NA,149,4366,3115
+Latin America,Honduras,male,Protection & Rule of Law,NA,NA,NA,60,2566,1599
+Latin America,Honduras,total,Women's Protection & Empowerment,NA,NA,NA,13762,3022,9159
+Latin America,Honduras,female,Women's Protection & Empowerment,NA,NA,NA,13252,2763,7388
+Latin America,Honduras,male,Women's Protection & Empowerment,NA,NA,NA,510,259,1771
+Latin America,Mexico,total,Education,NA,NA,NA,704,NA,NA
+Latin America,Mexico,female,Education,NA,NA,NA,354,NA,NA
+Latin America,Mexico,male,Education,NA,NA,NA,350,NA,NA
+Latin America,Peru,total,Economic Recovery & Development,NA,NA,NA,1308,2346,7841
+Latin America,Peru,female,Economic Recovery & Development,NA,NA,NA,783,920,4527
+Latin America,Peru,male,Economic Recovery & Development,NA,NA,NA,525,1426,3313
+Latin America,Peru,total,Environmental Health,NA,NA,NA,5869,NA,NA
+Latin America,Peru,female,Environmental Health,NA,NA,NA,4661,NA,NA
+Latin America,Peru,male,Environmental Health,NA,NA,NA,1207,NA,NA
+Latin America,Peru,total,Primary Healthcare,NA,NA,NA,2537,18780,8181
+Latin America,Peru,female,Primary Healthcare,NA,NA,NA,1793,13385,5639
+Latin America,Peru,male,Primary Healthcare,NA,NA,NA,744,5395,2542
+Latin America,Peru,total,Sexual & Reproductive Health,NA,NA,NA,130,700,174
+Latin America,Peru,female,Sexual & Reproductive Health,NA,NA,NA,85,700,174
+Latin America,Peru,male,Sexual & Reproductive Health,NA,NA,NA,45,0,0
+Latin America,Peru,total,Total Health Clients,NA,NA,NA,8691,35233,28307
+Latin America,Peru,female,Total Health Clients,NA,NA,NA,6023,24980,19507
+Latin America,Peru,male,Total Health Clients,NA,NA,NA,2668,10253,8800
+Latin America,Peru,total,Women's Protection & Empowerment,NA,NA,NA,629,11720,9582
+Latin America,Peru,female,Women's Protection & Empowerment,NA,NA,NA,594,9877,7811
+Latin America,Peru,male,Women's Protection & Empowerment,NA,NA,NA,35,1843,1771
+Latin America,Ecuador,total,Child Protection,NA,NA,NA,NA,45,NA
+Latin America,Ecuador,female,Child Protection,NA,NA,NA,NA,15,NA
+Latin America,Ecuador,male,Child Protection,NA,NA,NA,NA,30,NA
+Latin America,Ecuador,total,Sexual & Reproductive Health,NA,NA,NA,NA,909,362
+Latin America,Ecuador,female,Sexual & Reproductive Health,NA,NA,NA,NA,909,362
+Latin America,Ecuador,male,Sexual & Reproductive Health,NA,NA,NA,NA,0,0
+Latin America,El Salvador,total,Child Protection,NA,NA,NA,NA,1760,1586
+Latin America,El Salvador,female,Child Protection,NA,NA,NA,NA,985,807
+Latin America,El Salvador,male,Child Protection,NA,NA,NA,NA,775,779
+Latin America,El Salvador,total,Education,NA,NA,NA,NA,694,NA
+Latin America,El Salvador,female,Education,NA,NA,NA,NA,580,NA
+Latin America,El Salvador,male,Education,NA,NA,NA,NA,115,NA
+Latin America,Guatemala,total,Child Protection,NA,NA,NA,NA,2624,1398
+Latin America,Guatemala,female,Child Protection,NA,NA,NA,NA,1360,674
+Latin America,Guatemala,male,Child Protection,NA,NA,NA,NA,1264,724
+Latin America,Guatemala,total,Education,NA,NA,NA,NA,141,856
+Latin America,Guatemala,female,Education,NA,NA,NA,NA,124,390
+Latin America,Guatemala,male,Education,NA,NA,NA,NA,17,466
+Latin America,Honduras,total,Child Protection,NA,NA,NA,NA,1411,1729
+Latin America,Honduras,female,Child Protection,NA,NA,NA,NA,795,931
+Latin America,Honduras,male,Child Protection,NA,NA,NA,NA,616,798
+Latin America,Honduras,total,Education,NA,NA,NA,NA,450,169
+Latin America,Honduras,female,Education,NA,NA,NA,NA,417,87
+Latin America,Honduras,male,Education,NA,NA,NA,NA,34,82
+Latin America,Mexico,total,Child Protection,NA,NA,NA,NA,282,264
+Latin America,Mexico,female,Child Protection,NA,NA,NA,NA,180,142
+Latin America,Mexico,male,Child Protection,NA,NA,NA,NA,102,122
+Latin America,Peru,total,Child Protection,NA,NA,NA,NA,578,2505
+Latin America,Peru,female,Child Protection,NA,NA,NA,NA,317,1330
+Latin America,Peru,male,Child Protection,NA,NA,NA,NA,261,1175
+Latin America,Peru,total,Education,NA,NA,NA,NA,266,NA
+Latin America,Peru,female,Education,NA,NA,NA,NA,222,NA
+Latin America,Peru,male,Education,NA,NA,NA,NA,44,NA
+Latin America,Colombia,total,Governance,NA,NA,NA,NA,NA,44
+Latin America,Colombia,female,Governance,NA,NA,NA,NA,NA,36
+Latin America,Colombia,male,Governance,NA,NA,NA,NA,NA,8
+Latin America,Colombia,total,Environmental Health,NA,NA,NA,NA,NA,352
+Latin America,Colombia,female,Environmental Health,NA,NA,NA,NA,NA,64
+Latin America,Colombia,male,Environmental Health,NA,NA,NA,NA,NA,288
+Latin America,Mexico,total,Governance,NA,NA,NA,NA,NA,4
+Latin America,Mexico,female,Governance,NA,NA,NA,NA,NA,4
+Latin America,Mexico,male,Governance,NA,NA,NA,NA,NA,0
+Latin America,Venezuela,total,Governance,NA,NA,NA,NA,NA,42
+Latin America,Venezuela,female,Governance,NA,NA,NA,NA,NA,27
+Latin America,Venezuela,male,Governance,NA,NA,NA,NA,NA,15

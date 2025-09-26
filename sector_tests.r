@@ -281,3 +281,40 @@ ydat %>%
     axis.text.x = element_text(family = "Roboto Mono", size = 12)
   )
 
+
+# Extracting data
+x <- results_mean %>%
+  ungroup() %>%
+  filter(outcome != "total", outcome != "health - catchment", country != "Latin America") %>%
+  mutate(
+    gender = case_when(
+      gender == "f" ~ "female",
+      gender == "m" ~ "male",
+      TRUE ~ "total"
+    ),
+    sector = factor(case_when(
+      outcome == "child protection" ~ "Child Protection",
+      outcome == "education" ~ "Education",
+      outcome == "erd" ~ "Economic Recovery & Development",
+      outcome == "governance" ~ "Governance",
+      outcome == "protection rule of law" ~ "Protection & Rule of Law",
+      outcome == "women's protection & empowerment" ~ "Women's Protection & Empowerment",
+      outcome == "health - environmental health" ~ "Environmental Health",
+      outcome == "health - nutrition" ~ "Nutrition",
+      outcome == "health - primary health care" ~ "Primary Healthcare",
+      outcome == "health - sexual & reproductive health" ~ "Sexual & Reproductive Health",
+      outcome == "health_total" ~ "Total Health Clients",
+      outcome == "total" ~ "Total Clients",
+      TRUE ~ outcome
+    ),
+    levels = c(
+      "Child Protection", "Women's Protection & Empowerment", "Protection & Rule of Law", "Governance",
+      "Economic Recovery & Development", "Education", "Primary Healthcare", "Sexual & Reproductive Health",
+      "Nutrition", "Environmental Health", "Total Health Clients"
+    ))
+  ) %>%
+  dplyr::select(-c("outcome", "clients", "label", "label_num")) %>%
+  pivot_wider(
+    names_from = fy,
+    values_from = clients_round
+  )
