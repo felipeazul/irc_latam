@@ -391,7 +391,7 @@ chart_sector <- results_median %>%
   ) +
   scale_fill_manual(values = c(
     "Total" = "#FFC72C",
-    "Female" = "#383838",
+    "Female" = "#000000",
     "Male" = "#D1D1D1"
   )) +
   labs(
